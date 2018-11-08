@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DRAWING SHEET</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="" media="screen">
+</head>
+<style type="text/css">
+	body{
+		font-family: Aharoni;
+		background: gray;
+	}
+	#head{
+		background: lightgreen;
+		text-align: center;
+		color: white;
+		text-shadow: 2px 2px 2px blue;
+		position: absolute;
+		top: 0;
+		right: 0;
+		left: 0;
+		user-select: none;
+	}
+	#toolbox{
+		width: 10%;
+		background: lightblue;
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		top: 75px;
+		text-align: center;
+	}
+	#toolbox div{
+		border-bottom: 2px solid white;
+		margin-top: 5px;
+		cursor: pointer;
+		-moz-user-select: none;
+		user-select: none;
+		transition: 0.4s;
+		text-decoration: none;
+	}
+	#toolbox div:hover{
+		background: white;
+	}
+	a:link{
+		color: black;
+		text-decoration: none;
+	}
+	a:visited{
+		color: black;
+	}
+</style>
+<body>
+	<div id="head"><h1>MY SIMPLE DRAWING SHEET</h1></div>
+	<div id="toolbox">
+		<div onclick="rect=true; cir=false; line=false; clr=false"><img src="rectangle.png"><p>Rectangle</p></div>
+		<div onclick="cir=true; rect=false; line=false; clr=false"><img src="circle.png"><p>Circle</p></div>
+		<div onclick="line=true; cir=false; rect=false; clr=false"><img src="line.png"><p>Line</p></div>
+		<a href=canvas3.html><div onclick="clr=true; cir=false; rect=false; line=false; clrr()"><img src="Clear.png"><p>Clear</p></div></a>
+	</div>
+	<canvas onmouseup="draw()" onmousedown="po2()" width="1350" height="633" id="drawSpace" style="border: 2px solid green; background: white"></canvas>
+
+	<script type="text/javascript">
+		tool=drawSpace.getContext('2d');
+		clrt=[];
+		function po2(){
+			xpos2=event.x;
+			ypos2=event.y;
+		}
+		function draw(){
+			xpos=event.x;
+			ypos=event.y;
+			if(line==true){
+				tool.moveTo(xpos-10,ypos-10);
+				tool.lineTo(xpos2-10,ypos2-10);
+				var str = tool.stroke();
+				clrt.push(str);
+			}
+			if(rect==true){
+				tool.fillStyle="lightgreen";
+				tool.fillRect(xpos-10,ypos-10,xpos2-xpos,ypos2-ypos);
+			}
+			if(cir==true){
+				tool.fillStyle="lightgreen";
+				tool.beginPath();
+				cxpos=xpos-10;
+				cxpos2=xpos2-10;
+				cypos=ypos-10;
+				if(cxpos>cxpos2){
+				size=(cxpos-cxpos2);
+				}
+				if(cxpos<cxpos2){
+				size=(cxpos2-cxpos);
+				}
+				tool.arc(xpos-10,ypos-10,size,0,2*Math.PI);
+				tool.fill();
+			}
+			if(clr==true){
+				tool.restore();
+			}
+
+		}
+		function clrr(){
+			clrt.pop();
+		}
+		
+	</script>
+</body>
+</html>
